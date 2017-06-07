@@ -15,6 +15,21 @@ io.on('connection', (socket) => {
   console.log('new user connected');
   console.log(`users connected: ${io.engine.clientsCount}`);
 
+// socket.emit('newMessage', {
+//   from: 'Mike',
+//   text: 'text test',
+//   createdAt: 123123
+// });
+
+socket.on('createMessage', (message) => {
+  console.log('createMessage', message);
+  io.emit('newMessage', {
+    from: message.from,
+    text: message.text,
+    createdAt: new Date().getTime()
+  });
+});
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
     console.log(`users connected: ${io.engine.clientsCount}`);
