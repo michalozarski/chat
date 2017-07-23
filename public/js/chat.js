@@ -2,10 +2,38 @@
 
   socket.on('connect', function() {
     console.log('Conncted to server');
+    var params = $.deparam(window.location.search);
+
+    socket.emit('join', params, function(err) {
+      if (err) {
+        alert(err);
+        console.log(err);
+        window.location.href = './';
+      } else {
+        console.log('OK!');
+      }
+    });
   });
 
   socket.on('disconnect', function() {
     console.log('Disconnected from server');
+    socket.emit('join', params, function(err) {
+      if (err) {
+
+      } else {
+
+      }
+    });
+  });
+
+  socket.on('updateUserList', function (users) {
+    var ol = $('<ol></ol>');
+    users.forEach(function (user) {
+      ol.append($('<li></li>').text(user));
+    });
+
+    $('#users').html(ol);
+//    console.log('User list: ', users);
   });
 
   socket.on('newMessage', function(message) {
